@@ -451,8 +451,8 @@ plot(_funcCalcMA(valFinal_9_MaType, input_9_Source, input_9_Timeframe, valFinal_
 plot(_funcCalcMA(valFinal_10_MaType, input_10_Source, input_10_Timeframe, valFinal_10_MaLength), title='MA 10', color=color.new(input_10_color, input_10_LineTransparency), linewidth=input_10_LineWidth, style=_funcLineStyle(input_10_LineStyle))
 
 
-dema134
-tema226
+dema134  color val_9_color_default = #82FFC9
+tema226  color val_9_color_default = #82FFC9
 
 
 // Field 11
@@ -478,7 +478,9 @@ color input_1_color = input(title='Style: Color', group='Field 1', defval=val_1_
 int input_1_LineWidth = input.int(title='Style: Size', group='Field 1', minval=1, maxval=4, defval=2, step=1)
 int input_1_LineTransparency = input.int(title='Style: Transparency', group='Field 1', minval=0, maxval=100, defval=0, step=5)
 string input_1_LineStyle = input.string(title='Style: Type', group='Field 1', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
- sma20
+
+ sma20  color val_9_color_default = #82FFC9
+
 // Field 2
 input_2_Timeframe = input.timeframe("", "Resolution:", group="Field 2")
 input_2_Source = input(title='Source', group='Field 2', defval=close)
@@ -489,8 +491,8 @@ int input_2_LineWidth = input.int(title='Style: Size', group='Field 2', minval=1
 int input_2_LineTransparency = input.int(title='Style: Transparency', group='Field 2', minval=0, maxval=100, defval=0, step=5)
 string input_2_LineStyle = input.string(title='Style: Type', group='Field 2', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
-ema34
-ema21
+ema34  color val_9_color_default = #82FFC9
+ema21  color val_9_color_default = #82FFC9
 
 // Field 3
 input_3_Timeframe = input.timeframe("", "Resolution:", group="Field 3")
@@ -512,8 +514,8 @@ int input_4_LineWidth = input.int(title='Style: Size', group='Field 4', minval=1
 int input_4_LineTransparency = input.int(title='Style: Transparency', group='Field 4', minval=0, maxval=100, defval=0, step=5)
 string input_4_LineStyle = input.string(title='Style: Type', group='Field 4', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
-sma10
-sma100
+sma10   color val_9_color_default = #82FFC9
+sma100  color val_9_color_default = #82FFC9
 
 // Field 5
 input_5_Timeframe = input.timeframe("", "Resolution:", group="Field 5")
