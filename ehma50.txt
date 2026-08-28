@@ -453,7 +453,9 @@ plot(_funcCalcMA(valFinal_10_MaType, input_10_Source, input_10_Timeframe, valFin
 
 dema134  color val_9_color_default = #82FFC9
 tema226  color val_9_color_default = #82FFC9
-
+Hull Keltner "lower 1" cup *+05*  color val_9_color_default = #82FFC9
+Hull Keltner "SHULL" cup *+05*  color val_9_color_default = #82FFC9
+Hull Keltner "SHULL" cup *KC TOP* MIN  color val_9_color_default = #82FFC9
 
 // Field 11
 input_11_Timeframe = input.timeframe("", "Resolution:", group="Field 10")
