@@ -1,8 +1,8 @@
 // This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
-// © KINSKI
+// 
 
 //@version=5
-indicator('KINSKI Flexible Multi MA (COVWMA, DEMA, EMA, EHMA, FRAMA, HMA, KAMA, RMA, SMA, TEMA, SMMA (RMA), VIDYA, VWMA, WMA)', shorttitle='Hull Keltner Channel by crypto_rife ', overlay=true)
+indicator('Multi MA (COVWMA, DEMA, EMA, EHMA, FRAMA, HMA, KAMA, RMA, SMA, TEMA, SMMA (RMA), VIDYA, VWMA, WMA)', shorttitle='Hull Keltner Channel by crypto_rife ', overlay=true)
 
 
 
