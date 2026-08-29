@@ -561,7 +561,7 @@ int input_8_LineWidth = input.int(title='Style: Size', group='Field 8', minval=1
 int input_8_LineTransparency = input.int(title='Style: Transparency', group='Field 8', minval=0, maxval=100, defval=0, step=5)
 string input_8_LineStyle = input.string(title='Style: Type', group='Field 8', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
-Hma100 color val_9_color_default = #82FFC9
+Hma100 cup ema21 color val_9_color_default = #82FFC9
 
 // Field 9
 input_9_Timeframe = input.timeframe("", "Resolution:", group="Field 9")
