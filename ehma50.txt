@@ -418,8 +418,9 @@ color input_10_color = input(title='Style: Color', group='Field 10', defval=val_
 int input_10_LineWidth = input.int(title='Style: Size', group='Field 10', minval=1, maxval=4, defval=2, step=1)
 int input_10_LineTransparency = input.int(title='Style: Transparency', group='Field 10', minval=0, maxval=100, defval=0, step=5)
 string input_10_LineStyle = input.string(title='Style: Type', group='Field 10', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
-eham25
-ehma50
+
+eham25 Color val_9_color_default = #82FFC9
+ehma50 Color val_9_color_default = #82FFC9
 
 
 //************  set final settings
@@ -455,7 +456,8 @@ dema134  color val_9_color_default = #82FFC9
 tema226  color val_9_color_default = #82FFC9
 Hull Keltner "lower 1" ___ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL"  ____ *+05*  color val_9_color_default = #82FFC9
-Hull Keltner "SHULL" ___ KC TOP MIN  (BAR 2 AND BAR 6 )color val_9_color_default = #82FFC9
+Hull Keltner "SHULL" ___ TOP MIN  (BAR 2 AND BAR 6 ) color val_9_color_default = #82FFC9
+TOP MIN __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
 
 // Field 11
 input_11_Timeframe = input.timeframe("", "Resolution:", group="Field 10")
@@ -481,7 +483,7 @@ int input_1_LineWidth = input.int(title='Style: Size', group='Field 1', minval=1
 int input_1_LineTransparency = input.int(title='Style: Transparency', group='Field 1', minval=0, maxval=100, defval=0, step=5)
 string input_1_LineStyle = input.string(title='Style: Type', group='Field 1', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
- sma20  KC TOP MIN color val_9_color_default = #82FFC9
+ sma20  __TOP MIN color val_9_color_default = #82FFC9
 
 // Field 2
 input_2_Timeframe = input.timeframe("", "Resolution:", group="Field 2")
@@ -516,8 +518,8 @@ int input_4_LineWidth = input.int(title='Style: Size', group='Field 4', minval=1
 int input_4_LineTransparency = input.int(title='Style: Transparency', group='Field 4', minval=0, maxval=100, defval=0, step=5)
 string input_4_LineStyle = input.string(title='Style: Type', group='Field 4', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
-EHMA25  KC TOP* MAX (BAR 6 ) color val_9_color_default = #82FFC9
-EHMA50  KC TOP* MIN color val_9_color_default = #82FFC9
+EHMA25  __TOP* MAX (BAR 6 )   color val_9_color_default = #82FFC9
+EHMA50  __TOP* MIN  color val_9_color_default = #82FFC9
 sma10   color val_9_color_default = #82FFC9
 sma100  color val_9_color_default = #82FFC9
 
