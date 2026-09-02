@@ -458,6 +458,9 @@ Hull Keltner "lower 1" ___ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL"  ____ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL" ___ TOP MIN  (BAR 2 AND BAR 6 ) color val_9_color_default = #82FFC9
 TOP MIN __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
+ema21 __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
+EHMA50  __TOP MIN  color val_9_color_default = #82FFC9
+
 
 // Field 11
 input_11_Timeframe = input.timeframe("", "Resolution:", group="Field 10")
@@ -497,6 +500,7 @@ string input_2_LineStyle = input.string(title='Style: Type', group='Field 2', de
 
 ema34  color val_9_color_default = #82FFC9
 ema21  color val_9_color_default = #82FFC9
+tema226  d, d  color val_9_color_default = #82FFC9
 
 // Field 3
 input_3_Timeframe = input.timeframe("", "Resolution:", group="Field 3")
@@ -518,10 +522,10 @@ int input_4_LineWidth = input.int(title='Style: Size', group='Field 4', minval=1
 int input_4_LineTransparency = input.int(title='Style: Transparency', group='Field 4', minval=0, maxval=100, defval=0, step=5)
 string input_4_LineStyle = input.string(title='Style: Type', group='Field 4', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
-EHMA25  __TOP* MAX (BAR 6 )   color val_9_color_default = #82FFC9
-EHMA50  __TOP* MIN  color val_9_color_default = #82FFC9
+EHMA25  __TOP MAX (BAR 6 )   color val_9_color_default = #82FFC9
+EHMA50  __TOP MIN  color val_9_color_default = #82FFC9
 sma10   color val_9_color_default = #82FFC9
-sma100  color val_9_color_default = #82FFC9
+sma100  d, d color val_9_color_default = #82FFC9
 
 // Field 5
 input_5_Timeframe = input.timeframe("", "Resolution:", group="Field 5")
