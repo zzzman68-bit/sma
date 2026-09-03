@@ -1,0 +1,85 @@
+// © Julien_Eche
+
+//@version=5
+indicator(title="Ultimate Trend Channel", shorttitle="Ultimate Trend Channel_t-min", overlay=true, timeframe="", timeframe_gaps=true)
+
+// User inputs for defining length of each group
+len_group1 = input.int(title="Length 1", defval=30)
+len_group2 = input.int(title="Length 2", defval=42)
+len_group3 = input.int(title="Length 3", defval=59)
+len_group4 = input.int(title="Length 4", defval=83)
+len_group5 = input.int(title="Length 5", defval=116)
+len_group6 = input.int(title="Length 6", defval=162)
+len_group7 = input.int(title="Length 7", defval=227)
+len_group8 = input.int(title="Length 8", defval=318)
+len_group9 = input.int(title="Length 9", defval=445)
+len_group10 = input.int(title="Length 10", defval=623)
+len_group11 = input.int(title="Length 11", defval=872)
+len_group12 = input.int(title="Length 12", defval=1220)
+len_group13 = input.int(title="Length 13", defval=1710)
+len_group14 = input.int(title="Length 14", defval=2394)
+len_group15 = input.int(title="Length 15", defval=3352)
+
+mult = 1.0
+src = close
+
+// Transform the closing price to a logarithmic scale
+src_log = math.log(src)
+
+// Function for calculating upper band using logarithmic scale
+upperBandLog(src_log, length) =>
+    ta.linreg(src_log, length, 0) + mult * ta.stdev(src_log, length)
+
+// Function for calculating lower band using logarithmic scale
+lowerBandLog(src_log, length) =>
+    ta.linreg(src_log, length, 0) - mult * ta.stdev(src_log, length)
+
+// Calculation of upper and lower bands for each group using logarithmic scale
+upperband1 = upperBandLog(src_log, len_group1)
+lowerband1 = lowerBandLog(src_log, len_group1)
+upperband2 = upperBandLog(src_log, len_group2)
+lowerband2 = lowerBandLog(src_log, len_group2)
+upperband3 = upperBandLog(src_log, len_group3)
+lowerband3 = lowerBandLog(src_log, len_group3)
+upperband4 = upperBandLog(src_log, len_group4)
+lowerband4 = lowerBandLog(src_log, len_group4)
+upperband5 = upperBandLog(src_log, len_group5)
+lowerband5 = lowerBandLog(src_log, len_group5)
+upperband6 = upperBandLog(src_log, len_group6)
+lowerband6 = lowerBandLog(src_log, len_group6)
+upperband7 = upperBandLog(src_log, len_group7)
+lowerband7 = lowerBandLog(src_log, len_group7)
+upperband8 = upperBandLog(src_log, len_group8)
+lowerband8 = lowerBandLog(src_log, len_group8)
+upperband9 = upperBandLog(src_log, len_group9)
+lowerband9 = lowerBandLog(src_log, len_group9)
+upperband10 = upperBandLog(src_log, len_group10)
+lowerband10 = lowerBandLog(src_log, len_group10)
+upperband11 = upperBandLog(src_log, len_group11)
+lowerband11 = lowerBandLog(src_log, len_group11)
+upperband12 = upperBandLog(src_log, len_group12)
+lowerband12 = lowerBandLog(src_log, len_group12)
+upperband13 = upperBandLog(src_log, len_group13)
+lowerband13 = lowerBandLog(src_log, len_group13)
+upperband14 = upperBandLog(src_log, len_group14)
+lowerband14 = lowerBandLog(src_log, len_group14)
+upperband15 = upperBandLog(src_log, len_group15)
+lowerband15 = lowerBandLog(src_log, len_group15)
+
+// Calculate average of all upper and lower bands on a logarithmic scale
+averageBandLog = (upperband1 + lowerband1 + upperband2 + lowerband2 + upperband3 + lowerband3 + upperband4 + lowerband4 + upperband5 + lowerband5 + upperband6 + lowerband6 + upperband7 + lowerband7 + upperband8 + lowerband8 + upperband9 + lowerband9 + upperband10 + lowerband10 + upperband11 + lowerband11 + upperband12 + lowerband12 + upperband13 + lowerband13 + upperband14 + lowerband14 + upperband15 + lowerband15) / 30
+
+// Calculate average of all upper bands on a logarithmic scale
+averageUpperBandLog = (upperband1 + upperband2 + upperband3 + upperband4 + upperband5 + upperband6 + upperband7 + upperband8 + upperband9 + upperband10 + upperband11 + upperband12 + upperband13 + upperband14 + upperband15) / 15
+
+// Calculate average of all lower bands on a logarithmic scale
+averageLowerBandLog = (lowerband1 + lowerband2 + lowerband3 + lowerband4 + lowerband5 + lowerband6 + lowerband7 + lowerband8 + lowerband9 + lowerband10 + lowerband11 + lowerband12 + lowerband13 + lowerband14 + lowerband15) / 15
+
+// Define fill color for the area between upper and lower bands
+fillcolor = color.rgb(0, 191, 255, 95)
+
+// Plot upper and lower bands and fill the area between them
+fill(plot(math.exp(averageUpperBandLog), title="Average Upper Band (Log)", color=color.rgb(14, 116, 212), linewidth=1), plot(math.exp(averageLowerBandLog), title="Average Lower Band (Log)", color=color.rgb(14, 116, 212), linewidth=1), color=fillcolor)
+
+// Plot average band
+plot(math.exp(averageBandLog), title="Ultimate Trend Line (Log)", color=color.rgb(243, 128, 33), linewidth=1)

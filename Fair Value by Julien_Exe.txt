@@ -1,0 +1,262 @@
+// @ Julien_Eche
+
+//@version=5
+indicator(title="Fair Value", shorttitle="Fair Value:t-min ", overlay=true)
+
+// Define length as integer input
+lengthInput = input.int(200, title="Length", minval=1)
+
+// Define deviations for additional levels
+deviation1 = 0
+deviation2 = 10.0
+deviation3 = 20.0
+deviation4 = 30.0
+deviation5 = 40.0
+deviation6 = 50.0
+
+src = input(close, title="Source")
+Exponential = input(false)
+
+// Calculate base
+baseValue = Exponential ? ta.ema(src, lengthInput) : ta.sma(src, lengthInput)
+
+// Calculate deviations
+upperBound = baseValue
+lowerBound = baseValue
+
+// Get symbol currency
+symbolCurrency = syminfo.currency
+
+// Define currency symbols directly
+usdSymbol = "$"
+eurSymbol = "€"
+jpySymbol = "¥"
+gbpSymbol = "£"
+
+// Determine the symbol for the currency
+currencySymbol = ""
+if symbolCurrency == "USD"
+    currencySymbol := usdSymbol
+else if symbolCurrency == "EUR"
+    currencySymbol := eurSymbol
+else if symbolCurrency == "JPY"
+    currencySymbol := jpySymbol
+else if symbolCurrency == "GBP"
+    currencySymbol := gbpSymbol
+else
+    currencySymbol := symbolCurrency
+
+// Format base value to display with two decimal places
+formattedBaseValue = str.tostring(baseValue, "#.##")
+
+var term = ""
+currentPrice = close
+deviationPercentage = (currentPrice - baseValue) / baseValue * 100
+// Determine the term based on deviation percentage
+if deviationPercentage < -18
+    term := "   Significantly Undervalued"
+else if deviationPercentage >= -18 and deviationPercentage < -7
+    term := "   Moderately  Undervalued"
+else if deviationPercentage >= -7 and deviationPercentage <= 7
+    term := "   Fairly Valued"
+else if deviationPercentage > 7 and deviationPercentage <= 18
+    term := "   Moderately  Overvalued"
+else
+    term := "   Significantly Overvalued"
+
+// Fill between the additional upper and lower levels
+fill(plot(upperBound * (1 + deviation1 / 100.0), "Upper1", color=color.rgb(243, 33, 33, 100)), plot(upperBound * (1 + deviation2 / 100.0), "Upper2", color=color.rgb(243, 33, 33, 100)), color=color.rgb(243, 33, 33, 95), title="Background2")
+fill(plot(upperBound * (1 + deviation2 / 100.0), "Upper2", color=color.rgb(243, 33, 33, 100)), plot(upperBound * (1 + deviation3 / 100.0), "Upper3", color=color.rgb(243, 33, 33, 100)), color=color.rgb(243, 33, 33, 85), title="Background2")
+fill(plot(upperBound * (1 + deviation3 / 100.0), "Upper3", color=color.rgb(243, 33, 33, 100)), plot(upperBound * (1 + deviation4 / 100.0), "Upper4", color=color.rgb(243, 33, 33, 100)), color=color.rgb(243, 33, 33, 75), title="Background3")
+fill(plot(upperBound * (1 + deviation4 / 100.0), "Upper4", color=color.rgb(243, 33, 33, 100)), plot(upperBound * (1 + deviation5 / 100.0), "Upper5", color=color.rgb(243, 33, 33, 100)), color=color.rgb(243, 33, 33, 65), title="Background4")
+fill(plot(upperBound * (1 + deviation5 / 100.0), "Upper5", color=color.rgb(243, 33, 33, 100)), plot(upperBound * (1 + deviation6 / 100.0), "Upper6", color=color.rgb(243, 33, 33, 100)), color=color.rgb(243, 33, 33, 55), title="Background5")
+
+fill(plot(lowerBound * (1 - deviation1 / 100.0), "Lower1", color=color.rgb(54, 207, 125, 100)), plot(lowerBound * (1 - deviation2 / 100.0), "Lower2", color=color.rgb(54, 207, 125, 100)), color=color.rgb(54, 207, 125, 95), title="Background2")
+fill(plot(lowerBound * (1 - deviation2 / 100.0), "Lower2", color=color.rgb(54, 207, 125, 100)), plot(lowerBound * (1 - deviation3 / 100.0), "Lower3", color=color.rgb(54, 207, 125, 100)), color=color.rgb(54, 207, 125, 85), title="Background2")
+fill(plot(lowerBound * (1 - deviation3 / 100.0), "Lower3", color=color.rgb(54, 207, 125, 100)), plot(lowerBound * (1 - deviation4 / 100.0), "Lower4", color=color.rgb(54, 207, 125, 100)), color=color.rgb(54, 207, 125, 75), title="Background3")
+fill(plot(lowerBound * (1 - deviation4 / 100.0), "Lower4", color=color.rgb(54, 207, 125, 100)), plot(lowerBound * (1 - deviation5 / 100.0), "Lower5", color=color.rgb(54, 207, 125, 100)), color=color.rgb(54, 207, 125, 65), title="Background4")
+fill(plot(lowerBound * (1 - deviation5 / 100.0), "Lower5", color=color.rgb(54, 207, 125, 100)), plot(lowerBound * (1 - deviation6 / 100.0), "Lower6", color=color.rgb(54, 207, 125, 100)), color=color.rgb(54, 207, 125, 55), title="Background5")
+
+inputLength1 = 200
+inputLength2 = 300
+inputLength3 = 400
+inputLength4 = 500
+inputLength5 = 600
+
+
+// Line style inputs
+lineWidth = input(3, "Line Width")
+
+
+sourceInput = hlc3
+
+forecastLength = 50
+
+// Function to calculate slope
+calculateSlope(source, length) =>
+    max_bars_back(source, 5000)
+    if not barstate.islast or length <= 1
+        [float(na), float(na), float(na)]
+    else
+        sumX = 0.0
+        sumY = 0.0
+        sumXSqr = 0.0
+        sumXY = 0.0
+        for i = 0 to length - 1 by 1
+            val = source[i]
+            per = i + 1.0
+            sumX += per
+            sumY += val
+            sumXSqr += per * per
+            sumXY += val * per
+        slope = (length * sumXY - sumX * sumY) / (length * sumXSqr - sumX * sumX)
+        average = sumY / length
+        intercept = average - slope * sumX / length + slope
+        [slope, average, intercept]
+
+t1 = "Simple Moving Average (SMA): Averages prices over a specified period, equally weighting each price point.\n\nWeighted Moving Average (WMA): Gives more weight to recent prices, providing a faster response to price changes.\n\nExponential Moving Average (EMA): Gives more weight to recent prices, similar to WMA but with a different calculation method."
+t2 = "Crossover: Green when Fast MA crosses above Slow MA, Red when Fast MA crosses below Slow MA.\n\nDirection: Green when the selected MA is increasing, Red when the selected MA is decreasing.\n\nCombo: Green when the selected MA is increasing and Fast MA is above Slow MA, Red when the selected MA is decreasing and Fast MA is below Slow MA. Gray when conditions are not met."
+t3 = "The indicator employs an automatic projection approach to determine the optimal length of linear regression based on the Pearson correlation coefficient. This allows for an adaptive adjustment of the moving average according to the specific characteristics of the data, ensuring a precise response to market variations."
+
+// Input parameters
+base_ma_length = input.int(200, title="Line Length")
+ma_type = input.string("SMA", title="Line Calculation", options=["SMA", "WMA", "EMA"], tooltip=t1)
+color_choice = input.string("Combo", title="Color Option", options=["Crossover", "Direction", "Combo"], tooltip=t2)
+fast_length = 50
+slow_length = 200
+showLine = input(true, title="Hide Projection", group="Line Projection", tooltip=t3)
+
+// Calculate the selected MAs
+fast_ma = ma_type == "SMA" ? ta.sma(close, fast_length) : ma_type == "WMA" ? ta.wma(close, fast_length) : ta.ema(close, fast_length)
+slow_ma = ma_type == "SMA" ? ta.sma(close, slow_length) : ma_type == "WMA" ? ta.wma(close, slow_length) : ta.ema(close, slow_length)
+
+// Calculate the base MA with the specified length
+base_ma = ma_type == "SMA" ? ta.sma(close, base_ma_length) : ma_type == "WMA" ? ta.wma(close, base_ma_length) : ta.ema(close, base_ma_length)
+
+// Determine if the base MA is increasing or decreasing
+base_ma_increasing = base_ma > base_ma[1]
+
+// Define the color for the base MA
+base_ma_color = color_choice == "Direction" ? (base_ma_increasing ? color.teal : color.red) : color_choice == "Crossover" ? (fast_ma > slow_ma ? color.teal : color.red) : color.gray
+
+// Plot the base MA with the specified color and linewidth
+plot(base_ma, title="Base Line", color=base_ma_color, style=plot.style_line, linewidth=2)
+
+// Calculate and plot the custom colored moving average
+composite_ma_color = color_choice == "Combo" ? base_ma_increasing and fast_ma > slow_ma ? color.teal : not base_ma_increasing and fast_ma < slow_ma ? color.red : color.gray : na
+
+plot(base_ma, title="Combo", color=composite_ma_color, style=plot.style_line, linewidth=lineWidth)
+
+lengthInput1 = 100
+lengthInput2 = 150
+lengthInput3 = 200
+lengthInput4 = 250
+lengthInput5 = 300
+
+// Line style inputs
+linewidth = input(1, "Line Width")
+lineStyleString = input.string("Dotted", title="Line Style", options=["Solid", "Dashed", "Dotted"])
+lineStyle = lineStyleString == "Solid" ? line.style_solid : (lineStyleString == "Dotted" ? line.style_dotted : line.style_dashed)
+
+forecast = 50
+
+// Function to calculate slope
+calcSlope(source, length) =>
+    max_bars_back(source, 5000)
+    if not barstate.islast or length <= 1
+        [float(na), float(na), float(na)]
+    else
+        sumX = 0.0
+        sumY = 0.0
+        sumXSqr = 0.0
+        sumXY = 0.0
+        for i = 0 to length - 1 by 1
+            val = source[i]
+            per = i + 1.0
+            sumX += per
+            sumY += val
+            sumXSqr += per * per
+            sumXY += val * per
+        slope = (length * sumXY - sumX * sumY) / (length * sumXSqr - sumX * sumX)
+        average = sumY / length
+        intercept = average - slope * sumX / length + slope
+        [slope, average, intercept]
+
+// Function to calculate deviation
+calcDev(source, length, slope, average, intercept) =>
+    upDev = 0.0
+    dnDev = 0.0
+    stdDevAcc = 0.0
+    dsxx = 0.0
+    dsyy = 0.0
+    dsxy = 0.0
+    periods = length - 1
+    daY = intercept + slope * periods / 2
+    val = intercept
+    for j = 0 to periods by 1
+        price = high[j] - val
+        if price > upDev
+            upDev := price
+        price := val - low[j]
+        if price > dnDev
+            dnDev := price
+        price := source[j]
+        dxt = price - average
+        dyt = val - daY
+        price -= val
+        stdDevAcc += price * price
+        dsxx += dxt * dxt
+        dsyy += dyt * dyt
+        dsxy += dxt * dyt
+        val += slope
+    stdDev = math.sqrt(stdDevAcc / (periods == 0 ? 1 : periods))
+    pearsonR = dsxx == 0 or dsyy == 0 ? 0 : dsxy / math.sqrt(dsxx * dsyy)
+    [stdDev, pearsonR, upDev, dnDev]
+
+// Calculate slopes and deviations for each length
+[s1, a1, i1] = calcSlope(sourceInput, lengthInput1)
+[s2, a2, i2] = calcSlope(sourceInput, lengthInput2)
+[s3, a3, i3] = calcSlope(sourceInput, lengthInput3)
+[s4, a4, i4] = calcSlope(sourceInput, lengthInput4)
+[s5, a5, i5] = calcSlope(sourceInput, lengthInput5)
+
+// Calculate deviations for each length
+[stdDev1, pearsonR1, upDev1, dnDev1] = calcDev(sourceInput, lengthInput1, s1, a1, i1)
+[stdDev2, pearsonR2, upDev2, dnDev2] = calcDev(sourceInput, lengthInput2, s2, a2, i2)
+[stdDev3, pearsonR3, upDev3, dnDev3] = calcDev(sourceInput, lengthInput3, s3, a3, i3)
+[stdDev4, pearsonR4, upDev4, dnDev4] = calcDev(sourceInput, lengthInput4, s4, a4, i4)
+[stdDev5, pearsonR5, upDev5, dnDev5] = calcDev(sourceInput, lengthInput5, s5, a5, i5)
+
+// Find the highest Pearson's R value
+highestPearsonR = math.max(pearsonR1, pearsonR2, pearsonR3, pearsonR4, pearsonR5)
+
+selectedLength = highestPearsonR == pearsonR1 ? lengthInput1 : (highestPearsonR == pearsonR2 ? lengthInput2 : (highestPearsonR == pearsonR3 ? lengthInput3 : (highestPearsonR == pearsonR4 ? lengthInput4 : lengthInput5)))
+
+// Function to draw a line with selected style, color, and width
+DrawLine(x1, y1, x2, y2, emphasizeLastPoint) =>
+    if showLine
+        clr = y1 < y2 ? color.teal : color.red
+        //lineStyle = emphasizeLastPoint ? line.style_solid : linestyle
+        line.new(x1, y1, x2, y2, xloc.bar_index, color=clr, width=linewidth, style=lineStyle)
+
+// Calculate the slope of the linear regression line
+slope = (ta.linreg(sourceInput, selectedLength, 0) - nz(ta.linreg(sourceInput, selectedLength, 1))) / 1
+
+// If it is the last bar of historical data, then draw lines representing the forecast and show the table
+if barstate.islast
+    y1 = base_ma
+    totalGain = 0.0
+    for i = 1 to forecast
+        y2 = y1 + slope
+        totalGain := totalGain + ((y2 - y1) / y1) * 100
+        DrawLine(bar_index + i - 1, y1, bar_index + i, y2, false)
+        y1 := y2
+
+
+// Display the base value with currency symbol in a table at the top right
+var myTable = table.new(position = position.top_right, columns = 6, rows = 6)
+tickerSymbol = syminfo.ticker
+table.cell(myTable, 1, 0, text=tickerSymbol, text_size=size.large)
+table.cell(myTable, 2, 0, text = "Fair Value:", text_size=size.large)
+table.cell(myTable, 3, 0, currencySymbol + formattedBaseValue, text_color=composite_ma_color, text_size=size.large)
+table.cell(myTable, 4, 0, text = term, text_size=size.large, text_color=composite_ma_color)

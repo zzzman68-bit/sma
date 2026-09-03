@@ -1,0 +1,107 @@
+// @ Julien_Eche
+
+//@version=6
+indicator(title="__t-max", overlay=true, max_bars_back=500)
+
+useLogScale   = input.bool(true, "Log scale")
+enableRepaint = input.bool(false, "Repaint")
+showCenter    = input.bool(true, "Show center line")
+lookback      = input.int(20, "Lookback window", minval=2)
+alpha         = input.float(8.0, "Kernel alpha", step=0.25)
+
+fastATRlen = input.int(14, "Fast ATR length")
+slowATRlen = input.int(50, "Slow ATR length")
+nearBase   = input.float(1.5, "Near multiplier")
+farBase    = input.float(2.0, "Far multiplier")
+
+const color oldRed = color.rgb(255, 82, 82)
+
+var float[] w = array.new_float(lookback + 1)
+var float sumW = 0.0
+if barstate.isfirst
+    for i = 0 to lookback by 1
+        wi = math.pow(1 + i * i / (2 * alpha * lookback * lookback), -alpha)
+        array.set(w, i, wi)
+        sumW += wi
+
+kernel(x, repaint) =>
+    s = 0.0
+    for i = 0 to lookback by 1
+        xi = repaint ? x[i] : x[i + 1]
+        s += array.get(w, i) * xi
+    s / sumW
+
+srcClose = useLogScale ? math.log(close) : close
+srcHigh  = useLogScale ? math.log(high)  : high
+srcLow   = useLogScale ? math.log(low)   : low
+
+estLogClose = kernel(srcClose, enableRepaint)
+base        = useLogScale ? math.exp(estLogClose) : estLogClose
+
+getTR(h, l, c, repaint) =>
+    pc = repaint ? c : c[1]
+    math.max(math.max(h - l, math.abs(h - pc)), math.abs(l - pc))
+
+tr       = getTR(srcHigh, srcLow, srcClose, enableRepaint)
+atrFast  = ta.rma(tr, fastATRlen)
+atrSlow  = ta.rma(tr, slowATRlen)
+volRatio = math.min(math.max(atrFast / atrSlow, 0.75), 1.50)
+
+nearFactor = nearBase * volRatio
+farFactor  = farBase  * volRatio
+atrWidth   = atrSlow
+
+var float[] upperLevels = array.new_float(0)
+var float[] lowerLevels = array.new_float(0)
+array.clear(upperLevels)
+array.clear(lowerLevels)
+for i = 0 to 7 by 1
+    f   = nearFactor + (farFactor - nearFactor) * (i + 1) / 8
+    uLg = estLogClose + atrWidth * f
+    lLg = estLogClose - atrWidth * f
+    u   = useLogScale ? math.exp(uLg) : uLg
+    l   = useLogScale ? math.exp(lLg) : lLg
+    array.push(upperLevels, u)
+    array.push(lowerLevels, l)
+
+centerSeries = showCenter ? base : na
+pBase = plot(centerSeries, color = base > base[1] ? color.new(color.teal, 30) : color.new(oldRed, 30), linewidth = 1, title = "Center")
+
+pU1 = plot(array.get(upperLevels, 0), display = display.none)
+pU2 = plot(array.get(upperLevels, 1), display = display.none)
+pU3 = plot(array.get(upperLevels, 2), display = display.none)
+pU4 = plot(array.get(upperLevels, 3), display = display.none)
+pU5 = plot(array.get(upperLevels, 4), display = display.none)
+pU6 = plot(array.get(upperLevels, 5), display = display.none)
+pU7 = plot(array.get(upperLevels, 6), display = display.none)
+pU8 = plot(array.get(upperLevels, 7), display = display.none)
+
+pL1 = plot(array.get(lowerLevels, 0), display = display.none)
+pL2 = plot(array.get(lowerLevels, 1), display = display.none)
+pL3 = plot(array.get(lowerLevels, 2), display = display.none)
+pL4 = plot(array.get(lowerLevels, 3), display = display.none)
+pL5 = plot(array.get(lowerLevels, 4), display = display.none)
+pL6 = plot(array.get(lowerLevels, 5), display = display.none)
+pL7 = plot(array.get(lowerLevels, 6), display = display.none)
+pL8 = plot(array.get(lowerLevels, 7), display = display.none)
+
+fill(pBase, pU1, color = color.new(oldRed, 95))
+fill(pU1, pU2,  color = color.new(oldRed, 85))
+fill(pU2, pU3,  color = color.new(oldRed, 75))
+fill(pU3, pU4,  color = color.new(oldRed, 65))
+fill(pU4, pU5,  color = color.new(oldRed, 55))
+fill(pU5, pU6,  color = color.new(oldRed, 45))
+fill(pU6, pU7,  color = color.new(oldRed, 35))
+fill(pU7, pU8,  color = color.new(oldRed, 25))
+
+fill(pBase, pL1, color = color.new(color.teal, 95))
+fill(pL1, pL2,  color = color.new(color.teal, 85))
+fill(pL2, pL3,  color = color.new(color.teal, 75))
+fill(pL3, pL4,  color = color.new(color.teal, 65))
+fill(pL4, pL5,  color = color.new(color.teal, 55))
+fill(pL5, pL6,  color = color.new(color.teal, 45))
+fill(pL6, pL7,  color = color.new(color.teal, 35))
+fill(pL7, pL8,  color = color.new(color.teal, 25))
+
+alertcondition(ta.crossover(close, array.get(upperLevels, 0)), "Crossover Upper 1")
+alertcondition(ta.crossunder(close, array.get(lowerLevels, 0)), "Crossunder Lower 1")
