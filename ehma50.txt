@@ -459,7 +459,7 @@ Hull Keltner "SHULL"  ____ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL" ___ T.MIN  (BAR 2 AND BAR 6 ) color val_9_color_default = #82FFC9
 T.MIN __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
 ema21 __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
-EHMA50  __T.MIN  color val_9_color_default = #82FFC9
+ehma50  __T.MIN  color val_9_color_default = #82FFC9
 
 
 // Field 11
@@ -595,7 +595,10 @@ color input_10_color = input(title='Style: Color', group='Field 10', defval=val_
 int input_10_LineWidth = input.int(title='Style: Size', group='Field 10', minval=1, maxval=4, defval=2, step=1)
 int input_10_LineTransparency = input.int(title='Style: Transparency', group='Field 10', minval=0, maxval=100, defval=0, step=5)
 string input_10_LineStyle = input.string(title='Style: Type', group='Field 10', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
-
+ 
+ +1r10__upper6, (MA100__MA200), sma100 __t226 color val_9_color_default = #82FFC9
+ +1r10__upper6, (MA100__MA200), sma100 __t226 color val_9_color_default = #82FFC9
+color input_7_color = input(title='Style: Color', group='Field 7', defval=val_7_color_default)
 
 
 //************  set final settings
