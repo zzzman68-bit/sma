@@ -1,0 +1,13 @@
+//@version=5
+indicator("MA20 - Adjustable lookforward 5-6 bars(lookback=1)", overlay=true)
+
+// Input to manually control the lookback offset
+lookback = input.int(1, title="Days Back (Lookback)", minval=0, maxval=50)
+
+// MA20 calculation
+ma20 = ta.sma(close, 20)
+
+// Shift MA20 back by the chosen number of days
+maOffset = ma20[lookback]
+
+plot(maOffset, color=color.orange, linewidth=2, title="MA20 (Offset)")
