@@ -487,6 +487,7 @@ int input_1_LineTransparency = input.int(title='Style: Transparency', group='Fie
 string input_1_LineStyle = input.string(title='Style: Type', group='Field 1', defval='Line', options=['Line', 'Stepline', 'Step Line With Diamonds', 'Circles'])
 
  sma20  __T.MIN color val_9_color_default = #82FFC9
+ color input_8_color = input(title='Style: Color', group='Field 8', defval=val_8_color_default)
 
 // Field 2
 input_2_Timeframe = input.timeframe("", "Resolution:", group="Field 2")
@@ -501,6 +502,7 @@ string input_2_LineStyle = input.string(title='Style: Type', group='Field 2', de
 ema34  color val_9_color_default = #82FFC9
 ema21  color val_9_color_default = #82FFC9
 tema226  2d, 3d  color val_9_color_default = #82FFC9
+color input_8_color = input(title='Style: Color', group='Field 8', defval=val_8_color_default)
 
 // Field 3
 input_3_Timeframe = input.timeframe("", "Resolution:", group="Field 3")
@@ -526,6 +528,7 @@ EHMA25  __T.MIN (BAR 6 )   color val_9_color_default = #82FFC9
 EHMA50  __T.MIN  color val_9_color_default = #82FFC9
 sma10   color val_9_color_default = #82FFC9
 sma100  2d, 3d color val_9_color_default = #82FFC9
+color input_8_color = input(title='Style: Color', group='Field 8', defval=val_8_color_default)
 
 // Field 5
 input_5_Timeframe = input.timeframe("", "Resolution:", group="Field 5")
@@ -571,6 +574,8 @@ Hma100 __ ema21 color val_9_color_default = #82FFC9
 emhma50 __sma10 color val_9_color_default = #82FFC9
 chadelier exit  color val_9_color_default = #82FFC9
 T3 Entry and Exit by stocktrader15 color val_9_color_default = #82FFC9
+B-Min __-0.618r1  val_9_color_default = #82FFC9
+color input_8_color = input(title='Style: Color', group='Field 8', defval=val_8_color_default)
 
 // Field 9
 input_9_Timeframe = input.timeframe("", "Resolution:", group="Field 9")
@@ -585,6 +590,7 @@ string input_9_LineStyle = input.string(title='Style: Type', group='Field 9', de
 
  -01/+03/+05/+01/+07/+06/upper500/upper400/upper300/upper200Black/ "basis" ']  color val_9_color_default = #82FFC9
 -01/+03/+05/+01/+07/+06/upper500/upper400/upper300/upper200Black/ "basis" ']  color val_9_color_default = #82FFC9
+color input_8_color = input(title='Style: Color', group='Field 8', defval=val_8_color_default)
 
 // Field 10
 input_10_Timeframe = input.timeframe("", "Resolution:", group="Field 10")
