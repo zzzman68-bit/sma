@@ -640,6 +640,7 @@ string input_11_LineStyle = input.string(title='Style: Type', group='Field 9', d
 ema27 __Upper5 wk color val_9_color_default = #82FFC9
 ema30 __Upper5 wk color val_9_color_default = #82FFC9
 ema34 __Upper5 wk,d,  color val_9_color_default = #82FFC9
+ehma50 __t.min) (price surf__MA10 wk val_9_color_default = #82FFC9
 color input_7_color = input(title='Style: Color', group='Field 7', defval=val_7_color_default)
 tpl_type5_1_MaLength, tpl_type6_1_MaLength, tpl_type7_1_MaLength, input_1_MaLength)
 
