@@ -2,7 +2,7 @@
 // 
 
 //@version=5
-indicator('Multi MA (COVWMA, DEMA, EMA, EHMA, FRAMA, HMA, KAMA, RMA, SMA, TEMA, SMMA (RMA), VIDYA, VWMA, WMA)', shorttitle='Hull Keltner Channel by crypto_rife ', overlay=true)
+indicator('Multi MA (COVWMA, DEMA, EMA, EHMA, FRAMA, HMA, KAMA, RMA, SMA, TEMA, SMMA (RMA), VIDYA, VWMA, WMA)', shorttitle='H ', overlay=true)
 
 
 
@@ -461,8 +461,9 @@ tema226  color val_9_color_default = #82FFC9
 Hull Keltner "lower 1" ___ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL"  ____ *+05*  color val_9_color_default = #82FFC9
 Hull Keltner "SHULL" ___ T.MIN  (BAR 2 AND BAR 6 ) color val_9_color_default = #82FFC9
-T.MIN __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
-ema21 __ L3 UPPER OUTER  color val_9_color_default = #82FFC9
+T.MIN __L3 Upper Outer   color val_9_color_default = #82FFC9
+ema21 __L3 Upper Outer   color val_9_color_default = #82FFC9
+ehma50  __L3 Upper Outer  color val_9_color_default = #82FFC9
 ehma50  __T.MIN  color val_9_color_default = #82FFC9
 (_funcCalcMA(valFinal_10_MaType, input_10_Source, input_10_Timeframe, valFinal_10_MaLength), title='MA 10', color=color.new(input_10_color, 
 
